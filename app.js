@@ -10,6 +10,7 @@ app.use(express.static('public'));
 
 
 
+
 // templating Engine 
 app.use(expressLayout);
 app.set('layout','./layouts/main');
