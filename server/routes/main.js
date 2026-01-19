@@ -16,7 +16,12 @@ router.get('', (req, res) => {
 });
 
 router.get('/about', (req, res) => {
-       res.render('index');
+       const locals = {
+              title: "NodeJs Blog",
+              description: "Simple blog created with NodeJs and ExpressJs and MongoDB. "
+       };
+
+       res.render('about', { locals });
 });
 
 module.exports = router;
