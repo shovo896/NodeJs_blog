@@ -88,6 +88,14 @@ textarea{
        padding:top;
        grid-template-areas: "logo button" "menu menu ";
 }
+@media only screen  and (min-width: 768px) {
+       .header{
+              grid-template-columns: auto 1fr auto;
+              grid-template-areas: "logo menu button";
+       }
+       
+}
+
 .header__logo {
        grid-area: logo;
        font-weight:800;
@@ -106,8 +114,36 @@ textarea{
        grid-area: menu;
 }
 
-.head__button{
+.header__button{
        grid-area: button;
        display:flex;
        justify-content: end;
+}
+
+.header__button button{
+       
+       display:flex;
+       gap:3rem;
+       align-items: center;
+       border:0;
+       padding: 6px 12px;
+       background-color: none;
+       border-radius: var(--border-radius);
+       border: 2px solid transparent;
+       font-size: var(--font-size-base);
+       font-weight: 600;
+       color:var(--black);
+}
+.header__button button:hover{
+       border: 2px solid var(--black);
+}
+
+/*header -> navigation */ 
+.header__nav ul{
+       list-style-type: none;
+       display: flex;
+       gap:1rem;
+       padding:0;
+       margin:0;
+       font-weight: 600;
 }
