@@ -210,6 +210,26 @@ textarea{
 .article-list__date{
        font-size: var(--font-size-base);
        color:var(--gray);
-       width: 100px;
+       width: 260px;
        display: inline-block;
+}
+
+
+.article-ul li a {
+       display: flex;
+       justify-content: space-between;
+       flex-direction: column;
+       text-decoration: none;
+       margin:18px 0;
+}
+
+@media only screen  and (min-width: 768px) {
+       .article-ul li a {
+              flex-direction: row;
+              align-items: center;
+
+       }
+       .article-list__date{
+              text-align: right;
+       }
 }
