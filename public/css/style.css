@@ -50,4 +50,12 @@ textarea{
        margin:4px 2px;
        cursor: pointer;
 }
- .
+ .btn-delete{
+       padding:10px 16px ;
+       background-color: var(--red);
+ }
+
+ img{
+       width:100%;
+       height:auto;
+ }
