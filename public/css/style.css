@@ -233,3 +233,11 @@ textarea{
               text-align: right;
        }
 }
+
+.article-ulv li{
+       font-size: 24px;
+       cursor:pointer;
+       transition: filter 0.1s;
+
+}
+
