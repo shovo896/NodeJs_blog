@@ -24,4 +24,13 @@ router.get('/about', (req, res) => {
        res.render('about', { locals });
 });
 
+router.get('/contact', (req, res) => {
+       const locals = {
+              title: "Contact",
+              description: "Get in touch with the NodeJs Blog team."
+       };
+
+       res.render('contact', { locals });
+});
+
 module.exports = router;
