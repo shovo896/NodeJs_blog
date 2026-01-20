@@ -241,3 +241,20 @@ textarea{
 
 }
 
+.article-ul li:not(:last-child){
+       border-bottom: 1px solid var(--gray-light);
+}
+.article-ul li:hover{
+       filter: none;
+}
+.article-ul:hover li{
+       filter:blur(3px);
+
+}
+.article-ul:hover li:hover{
+       filter: none;
+}
+.article{
+       white-space: pre-wrap;
+}
+
