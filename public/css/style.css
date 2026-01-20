@@ -80,3 +80,14 @@ textarea{
 }
 
 /* header */
+.header{
+       display: grid; 
+       align-items: center;
+       grid-template-columns: 1fr 1fr;
+       grid-template-rows: auto;
+       padding:top;
+       grid-template-areas: "logo button" "menu menu ";
+}
+.header-logo {
+       grid-area: logo;
+}
