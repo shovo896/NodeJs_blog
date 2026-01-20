@@ -59,3 +59,11 @@ textarea{
        width:100%;
        height:auto;
  }
+
+
+ /*layout */ 
+ .container {
+       max-width:982px;
+       margin: 0 auto; 
+       padding: 0 10px;
+ }
