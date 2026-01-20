@@ -26,6 +26,14 @@ body {
   margin:0;
 }
 
+
+
+
+
+
+
+
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -146,4 +154,16 @@ textarea{
        padding:0;
        margin:0;
        font-weight: 600;
+}
+.header__nav ul a {
+       padding: 10px;
+       text-decoration: none;
+       color: var(--black);
+}
+.header__nav ul a:hover {
+       text-decoration: underline;
+}
+.header__nav ul a.active {
+       color:var(--gray)
+
 }
