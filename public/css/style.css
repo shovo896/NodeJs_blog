@@ -254,7 +254,28 @@ textarea{
 .article-ul:hover li:hover{
        filter: none;
 }
+.pagination{
+       font-size: 1.3rem;
+       color:var(--gray);
+       text-decoration: none;
+       margin-top: 40px;
+       display: inline-block;
+}
+
+
+.pagination:hover{
+       color:var(--black);
+
+}
+
+
+
 .article{
        white-space: pre-wrap;
 }
 
+/*footer*/
+.footer{
+       margin:4rem;
+       text-align: center;
+}
