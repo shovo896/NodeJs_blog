@@ -100,3 +100,14 @@ textarea{
        
        text-decoration: underline;
 }
+.header__nav{
+       display: flex;
+       justify-content: center;
+       grid-area: menu;
+}
+
+.head__button{
+       grid-area: button;
+       display:flex;
+       justify-content: end;
+}
