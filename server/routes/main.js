@@ -4,17 +4,18 @@ const Post = require('../models/Post');
 
 // routes
 // home route
-router.get('', (req, res) => {
+router.get('', async (req, res) => {
        const locals={
               title : "NodeJs Blog",
               description: "Simple blog created with NodeJs and ExpressJs and MongoDB. " 
        };
        try {
-              const data=await.Post.find();
+              const data = await Post.find();
               res.render('index',{locals,data});
 
        }  catch(error){
               console.log(error);
+              res.status(500).send('Server error');
 
        }
 
