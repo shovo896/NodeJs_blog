@@ -289,3 +289,21 @@ searchBar{
        right:0;
 }
 
+.searchBar.open{
+       transform:translateY(0);
+       position: transform 0.1s;
+}
+
+.searchBarInput{
+       margin:0;
+       padding:0;
+
+}
+
+#searchBarInput{
+       position: absolute;
+       top: 0;
+       right:0;
+       color:var(--gray-light);
+       padding: 15px;
+}
