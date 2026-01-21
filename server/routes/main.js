@@ -5,12 +5,24 @@ const Post = require('../models/Post');
 // routes
 // home route
 router.get('', async (req, res) => {
-       const locals={
+       
+       try {
+              const locals={
               title : "NodeJs Blog",
               description: "Simple blog created with NodeJs and ExpressJs and MongoDB. " 
        };
-       try {
-              const data = await Post.find();
+       let perPage=10;
+       let page=req.query.page || 1;
+
+       const data= await Post.aggregate([{$sort:{createAt:-1}}])
+
+
+
+
+
+
+
+              
               res.render('index',{locals,data});
 
        }  catch(error){
@@ -18,6 +30,9 @@ router.get('', async (req, res) => {
               res.status(500).send('Server error');
 
        }
+
+
+
 
 
 
