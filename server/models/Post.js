@@ -9,7 +9,7 @@ const PostSchema= new Schema({
               default: Date.now
        
        },
-       createAt:{
+       updatedAt:{
               type: Date,
               default: Date.now
        
