@@ -9,7 +9,7 @@
        <h2 class="articles_heading"> Latest Posts</h2>
        <ul class="article-ul">
               
-              <% array.forEach(Post => { %>
+              <% (data || []).forEach(Post => { %>
                
               
               
@@ -19,9 +19,9 @@
               
        
               <li>
-                     <a href="#">
+                     <a href="/posts/<%= Post._id %>" class="article-list__item">
                             <span><%= Post.title %></span>
-                            <span class="article-list__date"><%= Post.createdAt.toDateString() %></span>
+                            <span class="article-list__date"><%= Post.createAt.toDateString() %></span>
                             
                      </a>
               </li> 
