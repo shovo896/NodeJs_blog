@@ -3,10 +3,12 @@ const express = require('express');
 const expressLayout= require('express-ejs-layouts');
 const app = express();
 const PORT = process.env.PORT || 5000;
+const connectDB = require('./server/config/db');
 
 
 app.use(express.static('public'));
 
+connectDB();
 
 
 
