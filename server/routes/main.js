@@ -33,7 +33,7 @@ router.get('', async (req, res) => {
 
 
               
-              res.render('index',{locals,data,current:page,nextPage:hasNextPage,});
+              res.render('index',{locals,data,current:page,nextPage:hasNextPage?nextPage:null});
 
        }  catch(error){
               console.log(error);
