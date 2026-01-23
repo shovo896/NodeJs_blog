@@ -1,0 +1,18 @@
+<section class="articles">
+       <h2 class="articles_heading">Search Results</h2>
+
+       <% if ((data || []).length === 0) { %>
+              <p>No results found.</p>
+       <% } else { %>
+              <ul class="article-ul">
+                     <% (data || []).forEach(Post => { %>
+                     <li>
+                            <a href="/post/<%= Post._id %>" class="article-list__item">
+                                   <span><%= Post.title %></span>
+                                   <span class="article-list__date"><%= Post.createAt.toDateString() %></span>
+                            </a>
+                     </li>
+                     <% }); %>
+              </ul>
+       <% } %>
+</section>

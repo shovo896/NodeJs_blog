@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
 // routes
 // home route
-router.get('', async (req, res) => {
+router.get('/', async (req, res) => {
        
        try {
               const locals={
@@ -12,7 +13,7 @@ router.get('', async (req, res) => {
               description: "Simple blog created with NodeJs and ExpressJs and MongoDB. " 
        };
        let perPage=10;
-       let page=req.query.page || 1;
+       let page= parseInt(req.query.page, 10) || 1;
 
        const data= await Post.aggregate([{$sort:{createAt:-1}}])
        .skip(perPage * page - perPage)
@@ -48,8 +49,14 @@ router.get('', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   try {
     let slug = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(slug)) {
+      return res.status(400).send('Invalid post id');
+    }
 
     const data = await Post.findById({ _id: slug });
+    if (!data) {
+      return res.status(404).send('Post not found');
+    }
 
     const locals = {
       title: data.title,
@@ -63,6 +70,7 @@ router.get('/post/:id', async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send('Server error');
   }
 
 });
@@ -75,7 +83,15 @@ router.post('/search', async (req, res) => {
       description: "Simple Blog created with NodeJs, Express & MongoDb."
     }
 
-    let searchTerm = req.body.searchTerm;
+    let searchTerm = (req.body && req.body.searchTerm) ? req.body.searchTerm.trim() : "";
+    if (!searchTerm) {
+      return res.render("search", {
+        data: [],
+        locals,
+        currentRoute: '/search',
+        searchTerm: ""
+      });
+    }
     const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "")
 
     const data = await Post.find({
@@ -88,11 +104,13 @@ router.post('/search', async (req, res) => {
     res.render("search", {
       data,
       locals,
-      currentRoute: '/'
+      currentRoute: '/search',
+      searchTerm: searchTerm
     });
 
   } catch (error) {
     console.log(error);
+    res.status(500).send('Server error');
   }
 
 });
