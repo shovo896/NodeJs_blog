@@ -1,5 +1,9 @@
 
 
+<% if (typeof message !== "undefined" && message) { %>
+  <p><%= message %></p>
+<% } %>
+
 <form action="/admin" method="POST">
 
   <label for="username"><b>Username</b></label>
