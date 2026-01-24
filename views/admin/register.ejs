@@ -1,5 +1,9 @@
 <h3>Register</h3>
 
+<% if (typeof message !== "undefined" && message) { %>
+  <p><%= message %></p>
+<% } %>
+
 <form action="/admin/register" method="POST">
   <label for="username"><b>Username</b></label>
   <input type="text" placeholder="Enter Username" name="username">
