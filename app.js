@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const expressLayout= require('express-ejs-layouts');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const connectDB = require('./server/config/db');
@@ -12,6 +14,18 @@ app.use(express.json());
 
 connectDB();
 
+
+app.use(session({
+       secret: process.env.SESSION_SECRET || 'change_this_secret',
+       resave: false,
+       saveUninitialized: false,
+       store: MongoStore.create({
+              mongoUrl: process.env.MONGODB_URI
+       }),
+       cookie: {
+              maxAge: 1000 * 60 * 60 * 24
+       }
+}));
 
 
 
