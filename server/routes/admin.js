@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
 
-// admin 
+// admin - login
 router.get('/admin', async (req, res) => {
   try {
     const locals = {
