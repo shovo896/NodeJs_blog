@@ -7,6 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const connectDB = require('./server/config/db');
 const cookieParser = require('cookie-parser');
+const bcrypt= require('bcrypt');
+const jwt= require('jsonwebtoken');
 
 
 app.use(express.static('public'));
