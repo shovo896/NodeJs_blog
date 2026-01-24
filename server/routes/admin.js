@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
-const adminLayout='../views/layouts/admin';
+const adminLayout = 'layouts/admin';
 
 
 // admin - login
