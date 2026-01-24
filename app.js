@@ -6,11 +6,13 @@ const { MongoStore } = require('connect-mongo');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const connectDB = require('./server/config/db');
+const cookieParser = require('cookie-parser');
 
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 connectDB();
 
