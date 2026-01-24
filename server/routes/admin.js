@@ -19,6 +19,20 @@ router.get('/admin', async (req, res) => {
   }
 });
 
+// admin - register
+router.get('/admin/register', async (req, res) => {
+  try {
+    const locals = {
+      title: "Register",
+      description: "Create a new admin account."
+    }
+
+    res.render('admin/register', { locals, layout: adminLayout });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 
 
 
