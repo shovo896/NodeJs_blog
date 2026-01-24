@@ -4,6 +4,22 @@ const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
 
+// admin 
+router.get('/admin', async (req, res) => {
+  try {
+    const locals = {
+      title: "Admin",
+      description: "Simple Blog created with NodeJs, Express & MongoDb."
+    }
+
+    res.render('admin/index', { locals, layout: adminLayout });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+
 
 
 
