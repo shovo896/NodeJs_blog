@@ -4,6 +4,8 @@ const Schema= mongoose.Schema;
 const PostSchema= new Schema({
        title:{type: String,required:true},
        body:{type: String,required:true},
+       images:{type: [String], default: []},
+       videos:{type: [String], default: []},
        createAt:{
               type: Date,
               default: Date.now
