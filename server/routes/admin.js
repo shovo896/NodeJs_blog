@@ -137,7 +137,9 @@ router.get('/admin/dashboard', requireAuth, async (req, res) => {
       description: "Admin dashboard."
     };
 
-    res.render('admin/dashboard', { locals, layout: adminLayout, username: req.session.username });
+    const data = await Post.find().sort({ createdAt: -1 });
+
+    res.render('admin/dashboard', { locals, layout: adminLayout, username: req.session.username, data });
   } catch (error) {
     console.log(error);
   }
