@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt= require('bcrypt');
 const jwt= require('jsonwebtoken');
 const methodOverride = require('method-override');
-const {isActive} = require('./server/helpers/routeHelpers');
+const { isActiveRoute } = require('./server/helpers/routeHelpers');
 
 
 app.use(express.static('public'));
