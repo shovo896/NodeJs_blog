@@ -286,6 +286,19 @@ textarea{
        white-space: pre-wrap;
 }
 
+.post-media {
+       margin: 16px 0 24px 0;
+       display: grid;
+       gap: 12px;
+}
+
+.post-media__image,
+.post-media__video {
+       width: 100%;
+       border-radius: var(--border-radius);
+       display: block;
+}
+
 /*footer*/
 .footer{
        margin:4rem;

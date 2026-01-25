@@ -17,8 +17,14 @@
   <label for="title"><b>Title</b></label>
   <input type="text" placeholder="Post title" name="title" value="<%= data.title %>">
 
-  <label for="body"><b>Body</b></label>
-  <textarea name="body" rows="10" placeholder="Write your post..."><%= data.body %></textarea>
+<label for="body"><b>Body</b></label>
+<textarea name="body" rows="10" placeholder="Write your post..."><%= data.body %></textarea>
 
-  <input type="submit" value="Update" class="btn">
+<label for="imageUrls"><b>Image URLs (one per line)</b></label>
+<textarea name="imageUrls" rows="4" placeholder="https://example.com/photo1.jpg"><%= (data.images || []).join('\n') %></textarea>
+
+<label for="videoUrls"><b>Video URLs (one per line)</b></label>
+<textarea name="videoUrls" rows="4" placeholder="https://example.com/video.mp4"><%= (data.videos || []).join('\n') %></textarea>
+
+<input type="submit" value="Update" class="btn">
 </form>

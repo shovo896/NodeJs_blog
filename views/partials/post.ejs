@@ -1,5 +1,28 @@
 <h1><%= data.title  %></h1>
 <article class="article-content">
+       <% if (data.images && data.images.length) { %>
+       <div class="post-media">
+              <% data.images.forEach((url) => { %>
+                     <img src="<%= url %>" alt="" class="post-media__image">
+              <% }) %>
+       </div>
+       <% } %>
+
+       <% if (data.videos && data.videos.length) { %>
+       <div class="post-media">
+              <% data.videos.forEach((url) => { 
+                     const lower = String(url).toLowerCase();
+                     const isVideoFile = lower.endsWith('.mp4') || lower.endsWith('.webm') || lower.endsWith('.ogg');
+              %>
+                     <% if (isVideoFile) { %>
+                     <video controls class="post-media__video" src="<%= url %>"></video>
+                     <% } else { %>
+                     <p><a href="<%= url %>" target="_blank" rel="noopener noreferrer">Watch video</a></p>
+                     <% } %>
+              <% }) %>
+       </div>
+       <% } %>
+
        <%= data.body %>
        
 
