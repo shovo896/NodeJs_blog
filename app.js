@@ -9,12 +9,14 @@ const connectDB = require('./server/config/db');
 const cookieParser = require('cookie-parser');
 const bcrypt= require('bcrypt');
 const jwt= require('jsonwebtoken');
+const methodOverride = require('method-override');
 
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 
 connectDB();
 

@@ -137,11 +137,112 @@ router.get('/admin/dashboard', requireAuth, async (req, res) => {
       description: "Admin dashboard."
     };
 
-    const data = await Post.find().sort({ createdAt: -1 });
+    const data = await Post.find().sort({ createAt: -1 });
 
     res.render('admin/dashboard', { locals, layout: adminLayout, username: req.session.username, data });
   } catch (error) {
     console.log(error);
+  }
+});
+
+// admin - add post
+router.get('/add-post', requireAuth, async (req, res) => {
+  try {
+    const locals = {
+      title: "Add Post",
+      description: "Create a new post."
+    };
+
+    res.render('admin/add', { locals, layout: adminLayout });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// admin - add post POST
+router.post('/add-post', requireAuth, async (req, res) => {
+  try {
+    const { title, body } = req.body;
+    if (!title || !body) {
+      return res.render('admin/add', {
+        locals: { title: "Add Post", description: "Create a new post." },
+        layout: adminLayout,
+        message: 'Title and body are required.'
+      });
+    }
+
+    await Post.create({ title, body });
+    return res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// admin - edit post
+router.get('/edit-post/:id', requireAuth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send('Invalid post id');
+    }
+
+    const data = await Post.findById(id);
+    if (!data) {
+      return res.status(404).send('Post not found');
+    }
+
+    const locals = {
+      title: "Edit Post",
+      description: "Edit post."
+    };
+
+    res.render('admin/edit', { locals, layout: adminLayout, data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// admin - update post
+router.put('/edit-post/:id', requireAuth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send('Invalid post id');
+    }
+
+    const { title, body } = req.body;
+    if (!title || !body) {
+      return res.redirect(`/edit-post/${id}`);
+    }
+
+    await Post.findByIdAndUpdate(id, {
+      title,
+      body,
+      updatedAt: new Date()
+    });
+
+    return res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// admin - delete post
+router.delete('/delete-post/:id', requireAuth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send('Invalid post id');
+    }
+
+    await Post.findByIdAndDelete(id);
+    return res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
   }
 });
 

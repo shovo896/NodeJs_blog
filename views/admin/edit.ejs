@@ -1,0 +1,14 @@
+<div class="admin-title">
+  <h2>Edit Post</h2>
+  <a href="/admin/dashboard" class="button">Back to Dashboard</a>
+</div>
+
+<form action="/edit-post/<%= data._id %>?_method=PUT" method="POST">
+  <label for="title"><b>Title</b></label>
+  <input type="text" placeholder="Post title" name="title" value="<%= data.title %>">
+
+  <label for="body"><b>Body</b></label>
+  <textarea name="body" rows="10" placeholder="Write your post..."><%= data.body %></textarea>
+
+  <input type="submit" value="Update" class="btn">
+</form>
