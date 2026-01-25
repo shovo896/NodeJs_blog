@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const expressLayout= require('express-ejs-layouts');
 const session = require('express-session');
 const connectMongo = require('connect-mongo');
@@ -14,7 +15,7 @@ const methodOverride = require('method-override');
 const { isActiveRoute } = require('./server/helpers/routeHelpers');
 
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -43,6 +44,7 @@ app.use(session({
 app.use(expressLayout);
 app.set('layout','./layouts/main');
 app.set('view engine','ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 
 
