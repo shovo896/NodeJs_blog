@@ -47,6 +47,8 @@ app.use('/', require('./server/routes/main'));
 app.use('/', require('./server/routes/admin'));
 
 
+app.locals.isActiveRoute=isActiveRoute;
+
 
 
 
