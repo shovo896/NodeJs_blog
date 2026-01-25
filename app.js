@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const expressLayout= require('express-ejs-layouts');
 const session = require('express-session');
-const { MongoStore } = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const connectDB = require('./server/config/db');
@@ -22,13 +22,15 @@ app.use(methodOverride('_method'));
 connectDB();
 
 
+const sessionStore = process.env.MONGODB_URI
+       ? MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
+       : undefined;
+
 app.use(session({
        secret: process.env.SESSION_SECRET || 'change_this_secret',
        resave: false,
        saveUninitialized: false,
-       store: new MongoStore({
-              mongoUrl: process.env.MONGODB_URI
-       }),
+       store: sessionStore,
        cookie: {
               maxAge: 1000 * 60 * 60 * 24
        }
@@ -53,6 +55,10 @@ app.locals.isActiveRoute=isActiveRoute;
 
 
 
-app.listen(PORT, () => {
-       console.log(`App listening on port ${PORT}`);
-});
+if (require.main === module) {
+       app.listen(PORT, () => {
+              console.log(`App listening on port ${PORT}`);
+       });
+}
+
+module.exports = app;
