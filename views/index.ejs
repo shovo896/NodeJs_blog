@@ -4,6 +4,9 @@
        <p class="author__body"> AI and Ml enthusiast </p>
 
 </div>
+<% if (locals && locals.dbUnavailable) { %>
+<p class="article-list__empty">Database not configured. Set <strong>MONGODB_URI</strong> in Vercel to load posts.</p>
+<% } %>
 <img src="/img/hero-image.webp" alt="hero image" class="hero-image" width="981" height="528">
 <section class="articles"> 
        <h2 class="articles_heading"> Latest Posts</h2>
