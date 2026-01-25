@@ -197,7 +197,7 @@ router.get('/edit-post/:id', requireAuth, async (req, res) => {
       description: "Edit post."
     };
 
-    res.render('admin/edit', { locals, layout: adminLayout, data });
+    res.render('admin/edit-post', { locals, layout: adminLayout, data });
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
