@@ -6,6 +6,14 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const adminLayout = 'layouts/admin';
 
+const isDbConnected = () => mongoose.connection.readyState === 1;
+const requireDb = (req, res, next) => {
+  if (!isDbConnected()) {
+    return res.status(503).send('Database unavailable. Configure MONGODB_URI.');
+  }
+  return next();
+};
+
 const requireAuth = (req, res, next) => {
   if (req.session && req.session.userId) {
     return next();
@@ -37,7 +45,7 @@ router.get('/admin', async (req, res) => {
 });
 
 // admin - login POST
-router.post('/admin', async (req, res) => {
+router.post('/admin', requireDb, async (req, res) => {
   try {
     const locals = {
       title: "Admin",
@@ -94,7 +102,7 @@ router.get('/admin/register', async (req, res) => {
 });
 
 // admin - register POST
-router.post('/admin/register', async (req, res) => {
+router.post('/admin/register', requireDb, async (req, res) => {
   try {
     const locals = {
       title: "Register",
@@ -130,7 +138,7 @@ router.post('/admin/register', async (req, res) => {
 });
 
 // admin - dashboard
-router.get('/admin/dashboard', requireAuth, async (req, res) => {
+router.get('/admin/dashboard', requireAuth, requireDb, async (req, res) => {
   try {
     const locals = {
       title: "Admin Dashboard",
@@ -146,7 +154,7 @@ router.get('/admin/dashboard', requireAuth, async (req, res) => {
 });
 
 // admin - add post
-router.get('/add-post', requireAuth, async (req, res) => {
+router.get('/add-post', requireAuth, requireDb, async (req, res) => {
   try {
     const locals = {
       title: "Add Post",
@@ -160,7 +168,7 @@ router.get('/add-post', requireAuth, async (req, res) => {
 });
 
 // admin - add post POST
-router.post('/add-post', requireAuth, async (req, res) => {
+router.post('/add-post', requireAuth, requireDb, async (req, res) => {
   try {
     const { title, body } = req.body;
     if (!title || !body) {
@@ -180,7 +188,7 @@ router.post('/add-post', requireAuth, async (req, res) => {
 });
 
 // admin - edit post
-router.get('/edit-post/:id', requireAuth, async (req, res) => {
+router.get('/edit-post/:id', requireAuth, requireDb, async (req, res) => {
   try {
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -205,7 +213,7 @@ router.get('/edit-post/:id', requireAuth, async (req, res) => {
 });
 
 // admin - update post
-router.put('/edit-post/:id', requireAuth, async (req, res) => {
+router.put('/edit-post/:id', requireAuth, requireDb, async (req, res) => {
   try {
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -231,7 +239,7 @@ router.put('/edit-post/:id', requireAuth, async (req, res) => {
 });
 
 // admin - delete post
-router.delete('/delete-post/:id', requireAuth, async (req, res) => {
+router.delete('/delete-post/:id', requireAuth, requireDb, async (req, res) => {
   try {
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
