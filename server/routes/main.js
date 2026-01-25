@@ -73,7 +73,7 @@ router.get('/post/:id', async (req, res) => {
     res.status(500).send('Server error');
   }
 
-});
+});   
 
 /** post post search term */
 router.post('/search', async (req, res) => {
