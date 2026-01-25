@@ -147,6 +147,8 @@ router.get('/admin/dashboard', requireAuth, async (req, res) => {
 router.get('/admin/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/admin');
+
+    
   });
 });
 
