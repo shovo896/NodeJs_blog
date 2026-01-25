@@ -3,45 +3,40 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
+const isDbConnected = () => mongoose.connection.readyState === 1;
+
 // routes
 // home route
 router.get('/', async (req, res) => {
-       
-       try {
-              const locals={
-              title : "NodeJs Blog",
-              description: "Simple blog created with NodeJs and ExpressJs and MongoDB. " 
-       };
-       let perPage=10;
-       let page= parseInt(req.query.page, 10) || 1;
+  try {
+    const locals = {
+      title: "NodeJs Blog",
+      description: "Simple blog created with NodeJs and ExpressJs and MongoDB. ",
+      dbUnavailable: !isDbConnected()
+    };
+    let perPage = 10;
+    let page = parseInt(req.query.page, 10) || 1;
 
-       const data= await Post.aggregate([{$sort:{createAt:-1}}])
-       .skip(perPage * page - perPage)
-       .limit(perPage)
-       .exec();
+    if (!isDbConnected()) {
+      return res.render('index', { locals, data: [], current: page, nextPage: null });
+    }
 
+    const data = await Post.aggregate([{ $sort: { createAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
 
-       const count= await Post.countDocuments();
-       const nextPage= parseInt(page)+1;
-       const hasNextPage= count > perPage * page;
-       const previousPage= parseInt(page)-1;
-       const hasPreviousPage= previousPage >=1;
+    const count = await Post.countDocuments();
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = count > perPage * page;
+    const previousPage = parseInt(page) - 1;
+    const hasPreviousPage = previousPage >= 1;
 
-
-
-
-
-
-
-              
-              res.render('index',{locals,data,current:page,nextPage:hasNextPage?nextPage:null});
-
-       }  catch(error){
-              console.log(error);
-              res.status(500).send('Server error');
-
-       }
-
+    res.render('index', { locals, data, current: page, nextPage: hasNextPage ? nextPage : null });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
 });
 
 
@@ -49,6 +44,9 @@ router.get('/', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   try {
     let slug = req.params.id;
+    if (!isDbConnected()) {
+      return res.status(503).send('Database unavailable. Configure MONGODB_URI.');
+    }
     if (!mongoose.Types.ObjectId.isValid(slug)) {
       return res.status(400).send('Invalid post id');
     }
@@ -81,6 +79,9 @@ router.post('/search', async (req, res) => {
     const locals = {
       title: "Search",
       description: "Simple Blog created with NodeJs, Express & MongoDb."
+    }
+    if (!isDbConnected()) {
+      return res.status(503).send('Database unavailable. Configure MONGODB_URI.');
     }
 
     let searchTerm = (req.body && req.body.searchTerm) ? req.body.searchTerm.trim() : "";
