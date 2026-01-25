@@ -1,0 +1,18 @@
+<div class="admin-title">
+  <h2>Add Post</h2>
+  <a href="/admin/dashboard" class="button">Back to Dashboard</a>
+</div>
+
+<% if (typeof message !== "undefined" && message) { %>
+  <p><%= message %></p>
+<% } %>
+
+<form action="/add-post" method="POST">
+  <label for="title"><b>Title</b></label>
+  <input type="text" placeholder="Post title" name="title">
+
+  <label for="body"><b>Body</b></label>
+  <textarea name="body" rows="10" placeholder="Write your post..."></textarea>
+
+  <input type="submit" value="Create" class="btn">
+</form>
