@@ -7,6 +7,16 @@ const bcrypt = require('bcrypt');
 const adminLayout = 'layouts/admin';
 const connectDB = require('../config/db');
 
+const normalizeUrlList = (value) => {
+  if (!value) {
+    return [];
+  }
+  return String(value)
+    .split(/[\r\n,]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
 const requireAuth = (req, res, next) => {
   if (req.session && req.session.userId) {
     return next();
@@ -170,7 +180,7 @@ router.get('/add-post', requireAuth, async (req, res) => {
 router.post('/add-post', requireAuth, async (req, res) => {
   try {
     await connectDB();
-    const { title, body } = req.body;
+    const { title, body, imageUrls, videoUrls } = req.body;
     if (!title || !body) {
       return res.render('admin/add', {
         locals: { title: "Add Post", description: "Create a new post." },
@@ -179,7 +189,9 @@ router.post('/add-post', requireAuth, async (req, res) => {
       });
     }
 
-    await Post.create({ title, body });
+    const images = normalizeUrlList(imageUrls);
+    const videos = normalizeUrlList(videoUrls);
+    await Post.create({ title, body, images, videos });
     return res.redirect('/admin/dashboard');
   } catch (error) {
     console.log(error);
@@ -222,14 +234,18 @@ router.put('/edit-post/:id', requireAuth, async (req, res) => {
       return res.status(400).send('Invalid post id');
     }
 
-    const { title, body } = req.body;
+    const { title, body, imageUrls, videoUrls } = req.body;
     if (!title || !body) {
       return res.redirect(`/edit-post/${id}`);
     }
 
+    const images = normalizeUrlList(imageUrls);
+    const videos = normalizeUrlList(videoUrls);
     await Post.findByIdAndUpdate(id, {
       title,
       body,
+      images,
+      videos,
       updatedAt: new Date()
     });
 
