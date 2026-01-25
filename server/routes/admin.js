@@ -5,14 +5,7 @@ const Post = require('../models/Post');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const adminLayout = 'layouts/admin';
-
-const isDbConnected = () => mongoose.connection.readyState === 1;
-const requireDb = (req, res, next) => {
-  if (!isDbConnected()) {
-    return res.status(503).send('Database unavailable. Configure MONGODB_URI.');
-  }
-  return next();
-};
+const connectDB = require('../config/db');
 
 const requireAuth = (req, res, next) => {
   if (req.session && req.session.userId) {
@@ -24,6 +17,7 @@ const requireAuth = (req, res, next) => {
 // admin - login
 router.get('/admin', async (req, res) => {
   try {
+    await connectDB();
     if (req.session && req.session.userId) {
       return res.redirect('/admin/dashboard');
     }
@@ -45,8 +39,9 @@ router.get('/admin', async (req, res) => {
 });
 
 // admin - login POST
-router.post('/admin', requireDb, async (req, res) => {
+router.post('/admin', async (req, res) => {
   try {
+    await connectDB();
     const locals = {
       title: "Admin",
       description: "Simple Blog created with NodeJs, Express & MongoDb."
@@ -90,6 +85,7 @@ router.post('/admin', requireDb, async (req, res) => {
 // admin - register
 router.get('/admin/register', async (req, res) => {
   try {
+    await connectDB();
     const locals = {
       title: "Register",
       description: "Create a new admin account."
@@ -102,8 +98,9 @@ router.get('/admin/register', async (req, res) => {
 });
 
 // admin - register POST
-router.post('/admin/register', requireDb, async (req, res) => {
+router.post('/admin/register', async (req, res) => {
   try {
+    await connectDB();
     const locals = {
       title: "Register",
       description: "Create a new admin account."
@@ -138,8 +135,9 @@ router.post('/admin/register', requireDb, async (req, res) => {
 });
 
 // admin - dashboard
-router.get('/admin/dashboard', requireAuth, requireDb, async (req, res) => {
+router.get('/admin/dashboard', requireAuth, async (req, res) => {
   try {
+    await connectDB();
     const locals = {
       title: "Admin Dashboard",
       description: "Admin dashboard."
@@ -154,8 +152,9 @@ router.get('/admin/dashboard', requireAuth, requireDb, async (req, res) => {
 });
 
 // admin - add post
-router.get('/add-post', requireAuth, requireDb, async (req, res) => {
+router.get('/add-post', requireAuth, async (req, res) => {
   try {
+    await connectDB();
     const locals = {
       title: "Add Post",
       description: "Create a new post."
@@ -168,8 +167,9 @@ router.get('/add-post', requireAuth, requireDb, async (req, res) => {
 });
 
 // admin - add post POST
-router.post('/add-post', requireAuth, requireDb, async (req, res) => {
+router.post('/add-post', requireAuth, async (req, res) => {
   try {
+    await connectDB();
     const { title, body } = req.body;
     if (!title || !body) {
       return res.render('admin/add', {
@@ -188,8 +188,9 @@ router.post('/add-post', requireAuth, requireDb, async (req, res) => {
 });
 
 // admin - edit post
-router.get('/edit-post/:id', requireAuth, requireDb, async (req, res) => {
+router.get('/edit-post/:id', requireAuth, async (req, res) => {
   try {
+    await connectDB();
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).send('Invalid post id');
@@ -213,8 +214,9 @@ router.get('/edit-post/:id', requireAuth, requireDb, async (req, res) => {
 });
 
 // admin - update post
-router.put('/edit-post/:id', requireAuth, requireDb, async (req, res) => {
+router.put('/edit-post/:id', requireAuth, async (req, res) => {
   try {
+    await connectDB();
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).send('Invalid post id');
@@ -239,8 +241,9 @@ router.put('/edit-post/:id', requireAuth, requireDb, async (req, res) => {
 });
 
 // admin - delete post
-router.delete('/delete-post/:id', requireAuth, requireDb, async (req, res) => {
+router.delete('/delete-post/:id', requireAuth, async (req, res) => {
   try {
+    await connectDB();
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).send('Invalid post id');

@@ -7,7 +7,6 @@ const connectMongo = require('connect-mongo');
 const MongoStore = connectMongo.MongoStore || connectMongo.default || connectMongo;
 const app = express();
 const PORT = process.env.PORT || 5000;
-const connectDB = require('./server/config/db');
 const cookieParser = require('cookie-parser');
 const bcrypt= require('bcrypt');
 const jwt= require('jsonwebtoken');
@@ -20,9 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(methodOverride('_method'));
-
-connectDB();
-
 
 const sessionStore = process.env.MONGODB_URI
        ? MongoStore.create({ mongoUrl: process.env.MONGODB_URI })

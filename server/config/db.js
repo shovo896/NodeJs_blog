@@ -1,23 +1,31 @@
 const mongoose = require('mongoose');
 
+let cached = global.__mongoose;
+if (!cached) {
+  cached = global.__mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
   mongoose.set('strictQuery', false);
-  if (!process.env.MONGODB_URI) {
-    console.warn('MONGODB_URI is not set. Skipping MongoDB connection.');
-    return null;
+
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  if (mongoose.connection.readyState === 1) {
-    return mongoose.connection;
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is not set');
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI);
   }
 
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`MongoDB connected: ${conn.connection.host}`);
-    return conn;
+    cached.conn = await cached.promise;
+    return cached.conn;
   } catch (err) {
-    console.error('MongoDB connection error:', err.message);
-    return null;
+    cached.promise = null;
+    throw err;
   }
 };
 
